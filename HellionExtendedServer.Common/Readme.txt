@@ -1,0 +1,1 @@
+﻿This is for interfaces and shared items required for both the console app and the manager
