@@ -28,20 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.m_consoleTextBot = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // m_consoleTextBot
+            // 
+            this.m_consoleTextBot.Location = new System.Drawing.Point(168, 46);
+            this.m_consoleTextBot.Multiline = true;
+            this.m_consoleTextBot.Name = "m_consoleTextBot";
+            this.m_consoleTextBot.Size = new System.Drawing.Size(488, 329);
+            this.m_consoleTextBot.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(716, 492);
+            this.ClientSize = new System.Drawing.Size(762, 457);
+            this.Controls.Add(this.m_consoleTextBot);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox m_consoleTextBot;
     }
 }
 

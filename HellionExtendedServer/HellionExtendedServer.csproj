@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -32,6 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BulletSharp">
+      <HintPath>..\GameLibraries\BulletSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="HELLION_Dedicated">
+      <HintPath>..\GameLibraries\HELLION_Dedicated.exe</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.4.4\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -39,10 +46,12 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Routing" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,22 +60,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Managers\IPC\IServerService.cs" />
+    <Compile Include="Managers\IPC\ServerService.cs" />
     <Compile Include="HellionExtendedServer.cs" />
+    <Compile Include="Managers\ServerInstance.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="WCFService.cs" />
-    <Compile Include="WindowsService\ProjectInstaller.cs">
+    <Compile Include="Services\WCFService.cs" />
+    <Compile Include="Services\ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WindowsService\ProjectInstaller.Designer.cs">
+    <Compile Include="Services\ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindowsService\HESService.cs">
+    <Compile Include="Services\HESService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WindowsService\HESService.Designer.cs">
+    <Compile Include="Services\HESService.Designer.cs">
       <DependentUpon>HESService.cs</DependentUpon>
     </Compile>
+    <Compile Include="Wrappers\Hellion.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -79,10 +92,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WindowsService\ProjectInstaller.resx">
+    <EmbeddedResource Include="Services\ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WindowsService\HESService.resx">
+    <EmbeddedResource Include="Services\HESService.resx">
       <DependentUpon>HESService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -92,5 +105,6 @@
       <Name>HellionExtendedServer.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace HellionExtendedServer
+﻿namespace HellionExtendedServer.Services
 {
     partial class ProjectInstaller
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.ServiceProcess;
 
-namespace HellionExtendedServer
+namespace HellionExtendedServer.Services
 {
     [RunInstaller(true)]
     public partial class ProjectInstaller : System.Configuration.Install.Installer

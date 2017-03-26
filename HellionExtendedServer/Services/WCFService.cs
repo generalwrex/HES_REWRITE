@@ -1,5 +1,4 @@
-﻿using HellionExtendedServer.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -8,11 +7,12 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using HellionExtendedServer.Managers.IPC;
 
-namespace HellionExtendedServer
+namespace HellionExtendedServer.Services
 {
     public static class WCFService
-    {
+    {      
         private static List<WebServiceHost> m_serviceHosts;
 
         private static Logger Log = LogManager.GetCurrentClassLogger();
@@ -20,7 +20,7 @@ namespace HellionExtendedServer
 
         public static void Start()
         {
-            foreach(var host in m_serviceHosts)
+            foreach (var host in m_serviceHosts)
             {
                 host.Open();
             }
@@ -38,31 +38,31 @@ namespace HellionExtendedServer
         {
             m_serviceHosts = new List<WebServiceHost>();
 
-            m_serviceHosts.Add(CreateServiceHost(typeof(MainService), typeof(IMainService), "Internal", "Main"));
+            
+          
         }
 
-        public static WebServiceHost CreateServiceHost(Type serviceType, Type contractType, string urlExtension, string name)
+        public static void CreateServiceHost(Type serviceType, Type contractType, string urlExtension, string name)
         {
             try
             {
-                var baseAddress = new Uri("http://localhost:1337/HellionExtendedServer/" + urlExtension);
+                var baseAddress = new Uri("http://localhost:1337/HES/" + urlExtension);
                 var selfHost = new WebServiceHost(serviceType, baseAddress);
 
                 selfHost.AddServiceEndpoint(contractType, new WebHttpBinding(), name);
 
-                var smb = new ServiceMetadataBehavior();
-                smb.HttpGetEnabled = true;
-                selfHost.Description.Behaviors.Add(smb);      
-                Log.Info("Created WCF service at '" + baseAddress.ToString() + "'");
-                
-                return selfHost;
+                selfHost.Description.Behaviors.Add(new ServiceMetadataBehavior() { HttpGetEnabled = true });
+                    
+                m_serviceHosts.Add(selfHost);
+
+                Log.Debug("Created service at '" + baseAddress.ToString() + "'");
             }
             catch (CommunicationException ex)
             {
-                Log.Error(ex, "An exception occurred");
-                return null;
+                Log.Error(ex, "An Communication exception occurred");
             }
         }
+
 
     }
 }

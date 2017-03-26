@@ -4,6 +4,7 @@ using System.Configuration.Install;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.ServiceProcess;
+using HellionExtendedServer.Services;
 
 namespace HellionExtendedServer
 {

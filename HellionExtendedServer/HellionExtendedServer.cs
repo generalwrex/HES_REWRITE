@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HellionExtendedServer.Services;
+using HellionExtendedServer.Wrappers;
 using NLog;
-using System.ServiceModel.Web;
-using HellionExtendedServer.Common;
-using System.ServiceModel.Description;
-using System.ServiceModel;
+using System;
 
 namespace HellionExtendedServer
 {
@@ -16,7 +10,6 @@ namespace HellionExtendedServer
     /// </summary>
     public class HellionExtendedServer
     {
-
         private static HellionExtendedServer m_instance;
         private static string[] m_args;
 
@@ -34,26 +27,24 @@ namespace HellionExtendedServer
         {
             Log.Warn("Initializing HellionExtendedServer v" + HellionExtendedServer.VersionString);
 
-            WCFService.Init();
-
+            m_instance = this;
+            //WCFService.Init();
 
             m_args = args;
-
-            m_instance = this;
-
-            
         }
 
         internal void Run(string[] args)
         {
             m_args = args;
 
-            WCFService.Start();
+            //WCFService.Start();
+
+            var hellion = new HELLION();
+            hellion.Load();
 
             if (this.RunningAsService)
             {
                 // things to do only when hes is being ran as a service
-
             }
             else
             {
@@ -65,15 +56,11 @@ namespace HellionExtendedServer
                     System.Threading.Thread.Sleep(1000);
                 }
             }
-
-
         }
-        
+
         internal void OnQuit()
         {
             WCFService.Stop();
         }
-
-
     }
 }

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Threading;
 
-namespace HellionExtendedServer
+namespace HellionExtendedServer.Services
 {
     partial class HESService : ServiceBase
     {
