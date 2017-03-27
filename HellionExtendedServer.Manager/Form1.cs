@@ -15,6 +15,9 @@ namespace HellionExtendedServer.Manager
         public Form1()
         {
             InitializeComponent();
+
+            NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         }
     }
 }

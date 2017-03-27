@@ -1,18 +1,18 @@
-﻿using System;
+﻿using HellionExtendedServer.Managers;
+using NLog;
+using System;
 using System.Globalization;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using ZeroGravity;
-using NLog;
-using System.IO;
-using HellionExtendedServer.Managers;
 
 namespace HellionExtendedServer.Wrappers
 {
     /// <summary>
     /// This contains the main reflection to properly start Hellion Dedicated
     /// </summary>
-    public class HELLION 
+    public class HELLION
     {
         #region Fields
 
@@ -23,15 +23,17 @@ namespace HellionExtendedServer.Wrappers
         private Server m_server;
         private Thread serverThread;
 
-
         #endregion Fields
 
         #region Events
-        public delegate void ServerRunningEvent(Server server);
-        public event ServerRunningEvent OnServerStarted;
-        public event ServerRunningEvent OnServerStopped;
-        #endregion
 
+        public delegate void ServerRunningEvent();
+
+        public event ServerRunningEvent OnServerStarted;
+
+        public event ServerRunningEvent OnServerStopped;
+
+        #endregion Events
 
         #region Properties
 
@@ -39,16 +41,13 @@ namespace HellionExtendedServer.Wrappers
 
         public Server Server { get { return m_server; } }
 
-
         #endregion Properties
 
         public HELLION()
         {
-            
         }
 
         #region Methods
-
 
         public void Load()
         {
@@ -83,12 +82,8 @@ namespace HellionExtendedServer.Wrappers
 
             if (InitializeServer())
             {
-                var server = new ServerInstance(this);
-                
-
-                
+                var serverInstance = new ServerInstance(this);
             }
-           
         }
 
         private void SetupReflection(Assembly Assembly)
@@ -114,31 +109,25 @@ namespace HellionExtendedServer.Wrappers
             {
                 if (ex.TargetSite.Name == "LoadServerSettings")
                 {
-
                     if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Data\CelestialBodies.json")))
                     {
                         Log.Fatal(ex, "CelestialBodies.json not found. Cannot start the server (Does the Data folder exist?)");
                         return false;
                     }
 
-                    Log.Fatal(ex, "GameServer.ini is missing or is invalid, cannot start the server!");
-
+                    
                 }
                 //throw;
                 return false;
             }
 
-            
-
             return true;
-
         }
 
         public void Stop()
         {
             try
             {
-                
                 if (Server.PersistenceSaveInterval > 0.0)
                 {
                     //ServerInstance.Instance.Save();
@@ -158,10 +147,8 @@ namespace HellionExtendedServer.Wrappers
             }
             catch (Exception ex)
             {
-
                 Log.Error(ex, "Hellion Extended Server [SHUTDOWN ERROR]");
             }
-
         }
 
         /// <summary>
@@ -177,7 +164,7 @@ namespace HellionExtendedServer.Wrappers
             {
                 IsBackground = true,
                 CurrentCulture = CultureInfo.InvariantCulture,
-                CurrentUICulture = CultureInfo.InvariantCulture               
+                CurrentUICulture = CultureInfo.InvariantCulture
             };
             try
             {
@@ -193,9 +180,8 @@ namespace HellionExtendedServer.Wrappers
             while (!Server.WorldInitialized)
                 Thread.Sleep(1000);
 
-            OnServerStarted?.Invoke(m_server);
+            OnServerStarted?.Invoke();
 
-                      
             return serverThread;
         }
 
@@ -207,7 +193,7 @@ namespace HellionExtendedServer.Wrappers
         private void ServerThread()
         {
             try
-            {                             
+            {
                 m_server.MainLoop();
             }
             catch (TypeInitializationException ex)
@@ -219,6 +205,8 @@ namespace HellionExtendedServer.Wrappers
                 Console.WriteLine(ex.ToString(), "Hellion Extended Server [START EXCEPTION]");
             }
         }
+
+       
 
         #endregion Methods
     }

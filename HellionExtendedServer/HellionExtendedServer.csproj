@@ -60,10 +60,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Managers\ChatManager.cs" />
+    <Compile Include="Managers\Components\ServerStatus.cs" />
+    <Compile Include="Managers\Components\WCFMessage.cs" />
+    <Compile Include="Managers\HesManager.cs" />
+    <Compile Include="Managers\IPC\IChatService.cs" />
     <Compile Include="Managers\IPC\IServerService.cs" />
+    <Compile Include="Managers\IPC\ChatService.cs" />
     <Compile Include="Managers\IPC\ServerService.cs" />
     <Compile Include="HellionExtendedServer.cs" />
     <Compile Include="Managers\ServerInstance.cs" />
+    <Compile Include="Modules\HESConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Services\WCFService.cs" />
     <Compile Include="Services\ProjectInstaller.cs">

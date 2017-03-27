@@ -1,5 +1,6 @@
 ﻿using HellionExtendedServer.Services;
 using HellionExtendedServer.Wrappers;
+using HellionExtendedServer.Modules;
 using NLog;
 using System;
 
@@ -11,7 +12,6 @@ namespace HellionExtendedServer
     public class HellionExtendedServer
     {
         private static HellionExtendedServer m_instance;
-        private static string[] m_args;
 
         private Logger Log = LogManager.GetCurrentClassLogger();
 
@@ -27,18 +27,15 @@ namespace HellionExtendedServer
         {
             Log.Warn("Initializing HellionExtendedServer v" + HellionExtendedServer.VersionString);
 
-            m_instance = this;
-            //WCFService.Init();
 
-            m_args = args;
+            m_instance = this;
+
+
         }
 
         internal void Run(string[] args)
         {
-            m_args = args;
-
-            //WCFService.Start();
-
+            
             var hellion = new HELLION();
             hellion.Load();
 

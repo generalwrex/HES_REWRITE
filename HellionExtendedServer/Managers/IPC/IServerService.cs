@@ -7,6 +7,8 @@ using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using HellionExtendedServer.Managers;
+using HellionExtendedServer.Managers.Components;
 
 namespace HellionExtendedServer.Managers.IPC
 {
@@ -15,15 +17,19 @@ namespace HellionExtendedServer.Managers.IPC
     {
         [OperationContract]
         [WebGet]
-        bool StartServer();
+        WCFMessage StartServer();
 
         [OperationContract]
         [WebGet]
-        bool StopServer();
+        WCFMessage StopServer();
 
         [OperationContract]
         [WebGet]
-        bool Save();
+        WCFMessage Save();
+
+        [OperationContract]
+        [WebGet]
+        ServerStatus GetStatus();
 
     }
 }

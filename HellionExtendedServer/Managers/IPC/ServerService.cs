@@ -1,35 +1,77 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HellionExtendedServer.Managers.Components;
 using NLog;
+using ZeroGravity;
 
 namespace HellionExtendedServer.Managers.IPC
 {
-
     public class ServerService : IServerService
     {
         private static Logger Log = LogManager.GetCurrentClassLogger();
 
-
-        public bool Save()
+        public ServerStatus GetStatus()
         {
-            throw new NotImplementedException();
+            var status = new ServerStatus
+            {
+                ServerName = Server.Instance.ServerName,
+                IsRunning = Server.IsRunning,
+                UpTime = Server.Instance.RunTime
+            };
+
+            return status;
         }
 
-        public bool StartServer()
+        public WCFMessage Save()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (Server.IsRunning)
+                {
+                    ServerInstance.Instance.Save();
+                    return new WCFMessage(false, "Server Saved");
+                }
+                else
+                    return new WCFMessage(true, "The server is not running");
+            }
+            catch (System.Exception ex)
+            {
+                return new WCFMessage(true, "Save", ex);
+            }
         }
 
-        public bool StopServer()
+        public WCFMessage StartServer()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (!Server.IsRunning)
+                {
+                    ServerInstance.Instance.StartServer();
+                    return new WCFMessage(false, "Server Started");
+                }
+                else
+                    return new WCFMessage(true, "The server is already running");
+            }
+            catch (System.Exception ex)
+            {
+                return new WCFMessage(true, "StartServer", ex);
+            }
+        }
+
+        public WCFMessage StopServer()
+        {
+            try
+            {
+                if (Server.IsRunning)
+                {
+                    ServerInstance.Instance.StopServer();
+                    return new WCFMessage(false, "Server Stopped");
+                }
+                else
+                    return new WCFMessage(true, "The server is not running");
+            }
+            catch (System.Exception ex)
+            {
+                return new WCFMessage(true, "StopServer", ex);
+            }
         }
     }
-
 }

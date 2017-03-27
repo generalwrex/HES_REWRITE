@@ -1,1 +1,1 @@
-﻿This is for interfaces and shared items required for both the console app and the manager
+﻿I dont know if we'll need this dll or not yet! It's hanging around if we do!
